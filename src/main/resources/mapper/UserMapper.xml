@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.steven.demo01.mapper.UserMapper">
+    <select id="getAllUser" resultType="com.steven.demo01.bean.User">
+        select * from employees.employees where gender = 'M' and birth_date > '1965-01-31';
+    </select>
+</mapper>
