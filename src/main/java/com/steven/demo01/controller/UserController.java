@@ -29,7 +29,7 @@ public class UserController {
 //            System.out.println(user.toString());
 //        }
 //        return  data;
-
+        System.out.println(userService.getAllUsers());
         return userService.getAllUsers();
     }
 
