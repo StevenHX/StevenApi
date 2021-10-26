@@ -1,14 +1,12 @@
 package com.steven.demo01.mapper;
 
-import com.steven.demo01.bean.User;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.steven.demo01.bean.employees;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
 
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<employees> {
 
-    @Select("SELECT * FROM employees.employees where gender = 'M' and birth_date > '1965-01-31'")
-    List<User> getAllUsers();
+//    @Select("SELECT * FROM employees.employees where gender = 'M' and birth_date > '1965-01-31'")
+//    List<User> getAllUsers();
 }
