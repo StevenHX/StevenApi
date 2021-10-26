@@ -16,7 +16,6 @@ public class BasePageResult <T> {
     }
 
     public static <E> BasePageResult<E> newInstance(IPage<E> page) {
-        // TODO: 2021/10/26 总数不对
         return new BasePageResult<E>(page.getRecords(), page.getTotal());
     }
 
