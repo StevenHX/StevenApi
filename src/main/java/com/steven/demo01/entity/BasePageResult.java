@@ -1,4 +1,4 @@
-package com.steven.demo01.bean;
+package com.steven.demo01.entity;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.Data;
@@ -7,11 +7,11 @@ import java.util.List;
 
 @Data
 public class BasePageResult <T> {
-    private List<T> data;
+    private List<T> list;
     private Long totalNum;
 
     public BasePageResult(List<T> data, Long totalNum) {
-        this.data = data;
+        this.list = data;
         this.totalNum = totalNum;
     }
 

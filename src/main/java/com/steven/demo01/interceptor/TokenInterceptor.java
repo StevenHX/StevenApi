@@ -1,7 +1,7 @@
 package com.steven.demo01.interceptor;
 
 import com.alibaba.fastjson.JSON;
-import com.steven.demo01.bean.CommonResult;
+import com.steven.demo01.entity.CommonResult;
 import com.steven.demo01.utils.JwtUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;

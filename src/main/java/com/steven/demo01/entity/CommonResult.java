@@ -1,4 +1,4 @@
-package com.steven.demo01.bean;
+package com.steven.demo01.entity;
 
 import lombok.Data;
 
@@ -24,7 +24,10 @@ public class CommonResult<T> {
     }
 
     public static <T> CommonResult<T> error(T t) {
-        return new CommonResult<T>(300, "操作失败", t);
+        return new CommonResult<T>(500, "操作失败", t);
+    }
+    public static <T> CommonResult<T> error(String msg, T t) {
+        return new CommonResult<T>(500, msg, t);
     }
     public static <T> CommonResult<T> unVerify(T t) {
         return new CommonResult<T>(401, "认证失败", t);

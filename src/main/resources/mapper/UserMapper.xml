@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.steven.demo01.mapper.UserMapper">
-    <select id="getAllUser" resultType="com.steven.demo01.bean.employees">
-        select * from employees.employees where gender = 'M' and birth_date > '1965-01-31';
+    <select id="findByUsername" parameterType="String" resultType="com.steven.demo01.entity.User">
+        SELECT id, username, password from user where username = #{username};
     </select>
 </mapper>
