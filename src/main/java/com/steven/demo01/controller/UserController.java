@@ -6,6 +6,7 @@ import com.steven.demo01.bean.CommonResult;
 import com.steven.demo01.bean.employees;
 import com.steven.demo01.dto.EmployeeDto;
 import com.steven.demo01.service.UserService;
+import com.steven.demo01.utils.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class UserController {
 
     /**
      * 处理 /user/ GET请求
+     *
      * @return
      */
     @GetMapping("/")
@@ -38,9 +40,22 @@ public class UserController {
         return CommonResult.success(BasePageResult.newInstance(page));
     }
 
-    @DeleteMapping("/{id}")
-    @ApiOperation("删除用户的接口")
-    public String deleteUser(@PathVariable Long id) {
-        return "success delete";
+    /**
+     * 验证token
+     */
+    @PostMapping("/verify")
+    public CommonResult<Boolean> verify(@RequestParam String token) {
+        Boolean valid = JwtUtils.verifyToken(token);
+        return CommonResult.success(valid);
+    }
+
+    /**
+     * 登录接口
+     */
+    @PostMapping("/login")
+    public CommonResult<String> login(@RequestParam String username,@RequestParam String password) {
+        Long userId = 10001L;
+        String token = JwtUtils.makeToken(userId);
+        return CommonResult.success(token);
     }
 }

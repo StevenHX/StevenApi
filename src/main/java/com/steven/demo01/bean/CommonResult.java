@@ -26,4 +26,7 @@ public class CommonResult<T> {
     public static <T> CommonResult<T> error(T t) {
         return new CommonResult<T>(300, "操作失败", t);
     }
+    public static <T> CommonResult<T> unVerify(T t) {
+        return new CommonResult<T>(401, "认证失败", t);
+    }
 }

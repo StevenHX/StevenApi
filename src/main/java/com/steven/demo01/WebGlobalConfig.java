@@ -1,39 +1,49 @@
 package com.steven.demo01;
 
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import com.steven.demo01.interceptor.TokenInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@SpringBootConfiguration
-public class WebGlobalConfig {
+import java.util.ArrayList;
+import java.util.List;
 
-    @Bean
-    public CorsFilter corsFilter() {
-        //创建CorsConfiguration对象后添加配置
-        CorsConfiguration config = new CorsConfiguration();
-        //设置放行哪些原始域
-        config.addAllowedOriginPattern("*");
-        //放行哪些原始请求头部信息
-        config.addAllowedHeader("*");
-        //暴露哪些头部信息
-        config.addExposedHeader("*");
-        //放行哪些请求方式
-        config.addAllowedMethod("GET");     //get
-        config.addAllowedMethod("PUT");     //put
-        config.addAllowedMethod("POST");    //post
-        config.addAllowedMethod("DELETE");  //delete
-        //corsConfig.addAllowedMethod("*");     //放行全部请求
+@Configuration
+public class WebGlobalConfig implements WebMvcConfigurer {
+    @Autowired
+    private TokenInterceptor tokenInterceptor;
 
-        //是否发送Cookie
-        config.setAllowCredentials(true);
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        List<String> excludePath = new ArrayList<>();
+        //排除拦截，除了注册登录(此时还没token)，其他都拦截
+        excludePath.add("/user/register");  //登录
+        excludePath.add("/user/login");     //注册
+        excludePath.add("/swagger-resources/**");//swagger
+        excludePath.add("/webjars/**");//swagger
+        excludePath.add("/v2/**");//swagger
+        excludePath.add("/swagger-ui.html/**");//swagger
+        excludePath.add("/static/**");  //静态资源
+        excludePath.add("/assets/**");  //静态资源
+        registry.addInterceptor(tokenInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns(excludePath);
+        WebMvcConfigurer.super.addInterceptors(registry);
+    }
 
-        //2. 添加映射路径
-        UrlBasedCorsConfigurationSource corsConfigurationSource =
-                new UrlBasedCorsConfigurationSource();
-        corsConfigurationSource.registerCorsConfiguration("/**", config);
-        //返回CorsFilter
-        return new CorsFilter(corsConfigurationSource);
+    /**
+     * 解决跨域请求
+     *
+     * @param registry
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowCredentials(true)
+                .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS", "HEAD")
+                .maxAge(3600 * 24);
     }
 }
