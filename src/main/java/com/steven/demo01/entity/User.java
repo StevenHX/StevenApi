@@ -15,7 +15,7 @@ public class User {
             ValidationGroup.EditGroup.class,
             ValidationGroup.IdGroup.class
     })
-    private int id;
+    private Long id;
 
     @NotBlank(message = "用户名不能为空", groups = {
             ValidationGroup.AddGroup.class,

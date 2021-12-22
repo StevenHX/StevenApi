@@ -28,6 +28,6 @@ public class UserServiceImpl implements UserService {
         if (oldUser == null) {
             throw new CustomException(CommonResult.error("用户未注册",""));
         }
-        return JwtUtils.makeToken((long) oldUser.getId());
+        return JwtUtils.makeToken(oldUser.getId());
     }
 }
