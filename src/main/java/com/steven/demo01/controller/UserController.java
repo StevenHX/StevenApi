@@ -6,10 +6,11 @@ import com.steven.demo01.entity.ValidationGroup;
 import com.steven.demo01.service.UserService;
 import com.steven.demo01.utils.JwtUtils;
 import io.swagger.annotations.Api;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+@Slf4j
 @RestController
 @Api(tags = "用户管理相关接口")
 @RequestMapping(value = "/user")
@@ -31,7 +32,10 @@ public class UserController {
      */
     @PostMapping("/login")
     public CommonResult<String> login(@RequestBody @Validated(ValidationGroup.CustomGroup.class) User user) {
+        log.info("================login=============");
+        log.info("request: {}",user);
         String token = userService.login(user);
+        log.info("result: {}",CommonResult.success(token));
         return CommonResult.success(token);
     }
 
