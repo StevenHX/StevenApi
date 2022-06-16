@@ -5,6 +5,7 @@ import com.steven.demo01.entity.User;
 import com.steven.demo01.entity.ValidationGroup;
 import com.steven.demo01.service.UserService;
 import com.steven.demo01.utils.JwtUtils;
+import com.steven.demo01.utils.RedisUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RedisUtil redisUtil;
     /**
      * 验证token
      */
@@ -33,9 +36,11 @@ public class UserController {
     @PostMapping("/login")
     public CommonResult<String> login(@RequestBody @Validated(ValidationGroup.CustomGroup.class) User user) {
         log.info("================login=============");
+        log.info("token={}",redisUtil.get("token"));
         log.info("request: {}",user);
         String token = userService.login(user);
         log.info("result: {}",CommonResult.success(token));
+        redisUtil.set("token", token,8L * 60L * 60L);
         return CommonResult.success(token);
     }
 
