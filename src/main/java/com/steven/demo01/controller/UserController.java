@@ -19,28 +19,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private RedisUtil redisUtil;
-    /**
-     * 验证token
-     */
-    @PostMapping("/verify")
-    public CommonResult<Boolean> verify(@RequestParam String token) {
-        Boolean valid = JwtUtils.verifyToken(token);
-        return CommonResult.success(valid);
-    }
-
     /**
      * 登录接口
      */
     @PostMapping("/login")
     public CommonResult<String> login(@RequestBody @Validated(ValidationGroup.CustomGroup.class) User user) {
-        log.info("================login=============");
-        log.info("token={}",redisUtil.get("token"));
-        log.info("request: {}",user);
         String token = userService.login(user);
         log.info("result: {}",CommonResult.success(token));
-        redisUtil.set("token", token,8L * 60L * 60L);
         return CommonResult.success(token);
     }
 

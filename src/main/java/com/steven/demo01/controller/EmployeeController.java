@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Api(tags = "雇员相关接口")
 @RequestMapping(value = "/employee")
-public class EmployeeController {
+public class EmployeeController extends BaseController {
     @Autowired
     private EmployeeService employeeService;
 
     @PostMapping("/")
     @ApiOperation("分页查询雇员的接口")
     public CommonResult<BasePageResult<Employees>> postPageAllEmployees(@RequestBody Employees employee) {
+        Long uid = getCurrentUid();
         IPage<Employees> page = employeeService.pageGetAllEmployees(employee);
         return CommonResult.success(BasePageResult.newInstance(page));
     }

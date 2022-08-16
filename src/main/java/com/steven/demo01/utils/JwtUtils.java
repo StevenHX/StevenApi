@@ -3,6 +3,7 @@ package com.steven.demo01.utils;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -99,6 +100,25 @@ public class JwtUtils {
         }
 
         return Optional.of(decodedJWT.getClaims());
+    }
+
+    /**
+     * 获取指定KEY 的值
+     * @param token
+     * @param key
+     * @return
+     */
+    public static Claim getClaimsValue(String token, String key) {
+        try {
+            // 创建解析对象，使用的算法和secret要与创建token时保持一致
+            JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(JwtUtils.jwtKey)).build();
+            // 解析指定的token
+            DecodedJWT decodedJWT = jwtVerifier.verify(token);
+            // 获取解析后的token中的payload信息
+            return decodedJWT.getClaim(key);
+        }catch (JWTDecodeException e) {
+            return null;
+        }
     }
 
     /**
