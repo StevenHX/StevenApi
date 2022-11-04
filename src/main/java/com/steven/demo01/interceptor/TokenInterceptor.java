@@ -1,7 +1,8 @@
 package com.steven.demo01.interceptor;
 
-import com.alibaba.fastjson.JSON;
-import com.steven.demo01.entity.CommonResult;
+import com.alibaba.fastjson2.JSON;
+import com.steven.demo01.constant.Constants;
+import com.steven.demo01.domain.CommonResult;
 import com.steven.demo01.utils.JwtUtils;
 import com.steven.demo01.utils.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +20,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     public Long getCurrentUid(String token) {
         try {
-            return JwtUtils.getClaimsValue(token, "uid").asLong();
+            return JwtUtils.getClaimsValue(token, Constants.LOGIN_USER_KEY).asLong();
         } catch (Exception e) {
             return 0L;
         }
@@ -33,10 +34,8 @@ public class TokenInterceptor implements HandlerInterceptor {
             return true;
         }
         String token = request.getHeader("Authorization");
-        if (StringUtils.isNotBlank(token)
-                && JwtUtils.verifyToken(token)
-                && redisUtil.get(getCurrentUid(token).toString()) != null
-        ) {
+        Object object = redisUtil.get(token);
+        if (StringUtils.isNotBlank(token) && JwtUtils.verifyToken(token) && object != null) {
             return true;
         }
         response.setCharacterEncoding("UTF-8");
