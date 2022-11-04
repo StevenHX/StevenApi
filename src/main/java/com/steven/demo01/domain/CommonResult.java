@@ -1,4 +1,4 @@
-package com.steven.demo01.entity;
+package com.steven.demo01.domain;
 
 import lombok.Data;
 

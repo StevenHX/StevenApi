@@ -1,6 +1,6 @@
 package com.steven.demo01.controller;
 
-import com.steven.demo01.entity.CommonResult;
+import com.steven.demo01.domain.CommonResult;
 import com.steven.demo01.service.FileService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

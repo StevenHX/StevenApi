@@ -1,7 +1,8 @@
-package com.steven.demo01.entity;
+package com.steven.demo01.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.steven.demo01.domain.BaseSearchDto;
 import lombok.Data;
 
 import java.util.Date;

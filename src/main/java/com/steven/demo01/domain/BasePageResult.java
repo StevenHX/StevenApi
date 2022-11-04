@@ -1,4 +1,4 @@
-package com.steven.demo01.entity;
+package com.steven.demo01.domain;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.Data;

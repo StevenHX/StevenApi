@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.steven.demo01.constant.Constants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -74,7 +75,7 @@ public class JwtUtils {
          * sign() 签名算法
          */
         return JWT.create()
-                .withClaim("uid", uid)
+                .withClaim(Constants.LOGIN_USER_KEY, uid)
                 .withExpiresAt(dateMap.get("expiredTime"))
                 .withIssuedAt(dateMap.get("now"))
                 .sign(algorithm);

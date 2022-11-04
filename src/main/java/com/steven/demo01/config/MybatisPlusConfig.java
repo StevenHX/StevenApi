@@ -1,4 +1,4 @@
-package com.steven.demo01;
+package com.steven.demo01.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

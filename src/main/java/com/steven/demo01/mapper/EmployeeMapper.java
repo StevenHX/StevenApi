@@ -1,7 +1,7 @@
 package com.steven.demo01.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.steven.demo01.entity.Employees;
+import com.steven.demo01.domain.entity.Employees;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

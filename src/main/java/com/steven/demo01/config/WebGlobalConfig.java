@@ -1,4 +1,4 @@
-package com.steven.demo01;
+package com.steven.demo01.config;
 
 import com.steven.demo01.interceptor.TokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;

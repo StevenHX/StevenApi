@@ -1,6 +1,6 @@
 package com.steven.demo01.exception;
 
-import com.steven.demo01.entity.CommonResult;
+import com.steven.demo01.domain.CommonResult;
 import lombok.Getter;
 
 /**

@@ -1,11 +1,9 @@
 package com.steven.demo01.controller;
 
-import com.steven.demo01.entity.CommonResult;
-import com.steven.demo01.entity.User;
-import com.steven.demo01.entity.ValidationGroup;
+import com.steven.demo01.domain.CommonResult;
+import com.steven.demo01.domain.entity.User;
+import com.steven.demo01.domain.ValidationGroup;
 import com.steven.demo01.service.UserService;
-import com.steven.demo01.utils.JwtUtils;
-import com.steven.demo01.utils.RedisUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
