@@ -1,11 +1,11 @@
-package com.steven.demo01.service;
+package com.steven.demo01.service.impl;
 
-import com.steven.demo01.constant.CacheConstants;
 import com.steven.demo01.domain.CommonResult;
 import com.steven.demo01.domain.entity.User;
 import com.steven.demo01.domain.model.LoginUser;
 import com.steven.demo01.exception.CustomException;
 import com.steven.demo01.mapper.UserMapper;
+import com.steven.demo01.service.UserService;
 import com.steven.demo01.utils.JwtUtils;
 import com.steven.demo01.utils.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -21,13 +21,14 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RedisUtil redisUtil;
+
     @Override
     public void register(User user) {
-//        User oldUser = userMapper.findByUsername(user.getUsername());
-//        if (oldUser != null) {
-//            throw new CustomException(CommonResult.error("用户已存在", ""));
-//        }
-//        userMapper.insert(user);
+        User oldUser = userMapper.findByUsername(user.getUserName());
+        if (oldUser != null) {
+            throw new CustomException(CommonResult.error("用户已存在", ""));
+        }
+        userMapper.insertUser(user);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
         }
         if (
                 StringUtils.equals(user.getUserName(), sysUser.getUserName()) &&
-                StringUtils.equals(user.getPassword(), sysUser.getPassword())
+                        StringUtils.equals(user.getPassword(), sysUser.getPassword())
         ) {
             String token = JwtUtils.makeToken(sysUser.getUserId());
             // 缓存登录信息
@@ -51,4 +52,6 @@ public class UserServiceImpl implements UserService {
 
         throw new CustomException(CommonResult.error("登录失败", ""));
     }
+
+
 }

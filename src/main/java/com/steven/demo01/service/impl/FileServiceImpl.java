@@ -1,7 +1,8 @@
-package com.steven.demo01.service;
+package com.steven.demo01.service.impl;
 
 import com.steven.demo01.domain.CommonResult;
 import com.steven.demo01.exception.CustomException;
+import com.steven.demo01.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Component;

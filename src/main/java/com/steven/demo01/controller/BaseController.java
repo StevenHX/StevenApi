@@ -1,9 +1,6 @@
 package com.steven.demo01.controller;
 
-import com.steven.demo01.constant.CacheConstants;
-import com.steven.demo01.constant.Constants;
 import com.steven.demo01.domain.model.LoginUser;
-import com.steven.demo01.utils.JwtUtils;
 import com.steven.demo01.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +23,8 @@ public class BaseController {
         }
     }
 
-    public Long getCurrentUid() {
-        try {
-            return JwtUtils.getClaimsValue(getCurrentToken(), Constants.LOGIN_USER_KEY).asLong();
-        } catch (Exception e) {
-            return 0L;
-        }
-    }
-
     public LoginUser getCurrentLoginUser() {
         Object object = redisUtil.get(getCurrentToken());
-        return (LoginUser)object;
+        return (LoginUser) object;
     }
 }

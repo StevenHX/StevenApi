@@ -34,8 +34,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             return true;
         }
         String token = request.getHeader("Authorization");
-        Object object = redisUtil.get(token);
-        if (StringUtils.isNotBlank(token) && JwtUtils.verifyToken(token) && object != null) {
+        if (StringUtils.isNotBlank(token) && JwtUtils.verifyToken(token) && redisUtil.get(token) != null) {
             return true;
         }
         response.setCharacterEncoding("UTF-8");

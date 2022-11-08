@@ -1,8 +1,11 @@
 package com.steven.demo01.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.steven.demo01.domain.ValidationGroup;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -23,26 +26,42 @@ public class User implements Serializable {
     /**
      * 用户账号
      */
+    @NotBlank(message = "用户名不能为空", groups = {
+            ValidationGroup.CustomGroup.class,
+            ValidationGroup.AddGroup.class
+    })
     private String userName;
 
     /**
      * 用户昵称
      */
+    @NotBlank(message = "用户名不能为空", groups = {
+            ValidationGroup.AddGroup.class
+    })
     private String nickName;
 
     /**
      * 用户邮箱
      */
+    @Pattern(message = "邮箱不符合要求", regexp = "\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*", groups = {
+            ValidationGroup.AddGroup.class
+    })
     private String email;
 
     /**
      * 手机号码
      */
+    @Pattern(message = "手机号不符合要求", regexp = "(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}", groups = {
+            ValidationGroup.AddGroup.class
+    })
     private String phonenumber;
 
     /**
      * 用户性别
      */
+    @NotBlank(message = "性别不能为空", groups = {
+            ValidationGroup.AddGroup.class
+    })
     private String sex;
 
     /**
@@ -53,6 +72,10 @@ public class User implements Serializable {
     /**
      * 密码
      */
+    @Pattern(message = "密码不符合要求", regexp = "(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[~!@#$%^&*()_]).{8,30}", groups = {
+            ValidationGroup.CustomGroup.class,
+            ValidationGroup.AddGroup.class
+    })
     private String password;
 
     /**
@@ -73,6 +96,7 @@ public class User implements Serializable {
     /**
      * 最后登录时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date loginDate;
 
     /**
@@ -83,7 +107,7 @@ public class User implements Serializable {
     /**
      * 创建时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     /**
@@ -94,7 +118,7 @@ public class User implements Serializable {
     /**
      * 更新时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
     /**

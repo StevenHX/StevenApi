@@ -21,7 +21,7 @@ import java.nio.charset.Charset;
  * mina 长链接配置
  */
 @Slf4j
-@Configuration
+//@Configuration
 public class MinaConfig {
     @Value("${mina.port1}")
     private int port1;
