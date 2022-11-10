@@ -1,5 +1,9 @@
 package com.steven.demo01.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.steven.demo01.domain.CommonResult;
 import com.steven.demo01.domain.entity.User;
 import com.steven.demo01.domain.model.LoginUser;
@@ -13,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+
 
 @Component
 public class UserServiceImpl implements UserService {
@@ -28,7 +33,8 @@ public class UserServiceImpl implements UserService {
         if (oldUser != null) {
             throw new CustomException(CommonResult.error("用户已存在", ""));
         }
-        userMapper.insertUser(user);
+        user.setCreateTime(new Date());
+        userMapper.insert(user);
     }
 
     @Override
@@ -51,6 +57,28 @@ public class UserServiceImpl implements UserService {
         }
 
         throw new CustomException(CommonResult.error("登录失败", ""));
+    }
+
+    @Override
+    public IPage<User> selectUserList(User user) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper
+                .like("user_name", user.getUserName())
+                .eq("sex", user.getSex())
+                .like("email", user.getEmail())
+                .like("phonenumber", user.getPhonenumber())
+                .eq("status", user.getStatus());
+        IPage<User> pages = new Page<>(user.getPageNum(), user.getPageSize());
+        return userMapper.selectPage(pages, queryWrapper);
+    }
+
+    @Override
+    public void edit(User user) {
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("user_id", user.getUserId());
+        user.setUpdateTime(new Date());
+        int rows = userMapper.update(user, updateWrapper);
+        if (rows == 0) throw new CustomException(CommonResult.error("修改失败", ""));
     }
 
 

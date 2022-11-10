@@ -26,37 +26,6 @@
     <select id="findByUsername" parameterType="String" resultMap="UserResult">
         SELECT u.user_id,u.dept_id,u.user_name,u.nick_name,u.email,u.phonenumber,
                u.sex,u.avatar,u.password,u.status,u.del_flag,u.login_ip,u.login_date,
-               u.create_by,u.create_time,u.update_by,u.update_time,u.remark from sys_user u where u.user_name = #{username};
+               u.create_by,u.create_time,u.update_by,u.update_time,u.remark from user u where u.user_name = #{username};
     </select>
-    <insert id="insertUser" parameterType="com.steven.demo01.domain.entity.User" useGeneratedKeys="true" keyProperty="userId">
-        insert into sys_user(
-        <if test="userId != null and userId != 0">user_id,</if>
-        <if test="deptId != null and deptId != 0">dept_id,</if>
-        <if test="userName != null and userName != ''">user_name,</if>
-        <if test="nickName != null and nickName != ''">nick_name,</if>
-        <if test="email != null and email != ''">email,</if>
-        <if test="avatar != null and avatar != ''">avatar,</if>
-        <if test="phonenumber != null and phonenumber != ''">phonenumber,</if>
-        <if test="sex != null and sex != ''">sex,</if>
-        <if test="password != null and password != ''">password,</if>
-        <if test="status != null and status != ''">status,</if>
-        <if test="createBy != null and createBy != ''">create_by,</if>
-        <if test="remark != null and remark != ''">remark,</if>
-        create_time
-        )values(
-        <if test="userId != null and userId != ''">#{userId},</if>
-        <if test="deptId != null and deptId != ''">#{deptId},</if>
-        <if test="userName != null and userName != ''">#{userName},</if>
-        <if test="nickName != null and nickName != ''">#{nickName},</if>
-        <if test="email != null and email != ''">#{email},</if>
-        <if test="avatar != null and avatar != ''">#{avatar},</if>
-        <if test="phonenumber != null and phonenumber != ''">#{phonenumber},</if>
-        <if test="sex != null and sex != ''">#{sex},</if>
-        <if test="password != null and password != ''">#{password},</if>
-        <if test="status != null and status != ''">#{status},</if>
-        <if test="createBy != null and createBy != ''">#{createBy},</if>
-        <if test="remark != null and remark != ''">#{remark},</if>
-        sysdate()
-        )
-    </insert>
 </mapper>
