@@ -62,12 +62,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public IPage<User> selectUserList(User user) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper
-                .like("user_name", user.getUserName())
-                .eq("sex", user.getSex())
-                .like("email", user.getEmail())
-                .like("phonenumber", user.getPhonenumber())
-                .eq("status", user.getStatus());
+        if (StringUtils.isNotBlank(user.getUserName())) {
+            queryWrapper.like("user_name", user.getUserName());
+        }
+        if (StringUtils.isNotBlank(user.getEmail())) {
+            queryWrapper.like("email", user.getEmail());
+        }
+        if (StringUtils.isNotBlank(user.getPhonenumber())) {
+            queryWrapper.like("phonenumber", user.getPhonenumber());
+        }
+        if (StringUtils.isNotBlank(user.getSex())) {
+            queryWrapper.eq("sex", user.getSex());
+        }
+        if (StringUtils.isNotBlank(user.getStatus())) {
+            queryWrapper.eq("status", user.getStatus());
+        }
         IPage<User> pages = new Page<>(user.getPageNum(), user.getPageSize());
         return userMapper.selectPage(pages, queryWrapper);
     }
