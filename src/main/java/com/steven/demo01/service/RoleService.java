@@ -15,4 +15,7 @@ public interface RoleService {
     SysRole selectRoleById(Long roleId);
 
     IPage<SysRole> selectRoleList(SysRole sysRole);
+
+    void addRole(SysRole sysRole);
+    void editRole(SysRole sysRole);
 }

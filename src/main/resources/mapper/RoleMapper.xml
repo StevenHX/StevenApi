@@ -6,4 +6,7 @@
     <select id="selectRoleById"  parameterType="Long" resultType="com.steven.demo01.domain.entity.SysRole">
             select * from sys_role r where r.role_id = #{roleId};
     </select>
+    <select id="selectRoleByName" resultType="com.steven.demo01.domain.entity.SysRole">
+        select * from sys_role r where r.role_name = #{roleName};
+    </select>
 </mapper>
