@@ -35,6 +35,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
         String token = request.getHeader("Authorization");
         if (StringUtils.isNotBlank(token) && JwtUtils.verifyToken(token) && redisUtil.get(token) != null) {
+            redisUtil.SetKeyExpireTime(token,Constants.EXPIRE_TIME);
             return true;
         }
         response.setCharacterEncoding("UTF-8");
