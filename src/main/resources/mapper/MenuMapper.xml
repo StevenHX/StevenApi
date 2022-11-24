@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.steven.demo01.mapper.MenuMapper">
+    <select id="selectMenuById"  parameterType="Long" resultType="com.steven.demo01.domain.entity.SysMenu">
+            select * from sys_menu m where m.menu_id = #{menuId};
+    </select>
+    <select id="selectMenuByName" resultType="com.steven.demo01.domain.entity.SysMenu">
+        select * from sys_menu m where m.menu_name = #{menuName};
+    </select>
+</mapper>
