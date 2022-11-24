@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.steven.demo01.constant.Constants;
 import com.steven.demo01.domain.CommonResult;
 import com.steven.demo01.domain.entity.User;
 import com.steven.demo01.domain.model.LoginUser;
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
             LoginUser loginUser = new LoginUser();
             loginUser.setUser(sysUser);
             loginUser.setLoginTime(new Date().getTime());
-            redisUtil.set(token, loginUser, 60L * 60L);
+            redisUtil.set(token, loginUser, Constants.EXPIRE_TIME);
             return token;
         }
 
