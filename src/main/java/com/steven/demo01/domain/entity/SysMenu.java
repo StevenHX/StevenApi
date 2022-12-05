@@ -3,8 +3,10 @@ package com.steven.demo01.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.steven.demo01.domain.BaseSearchDto;
+import com.steven.demo01.domain.ValidationGroup;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,6 +16,10 @@ public class SysMenu extends BaseSearchDto implements Serializable {
     @TableId
     private Long menuId;
 
+    @NotBlank(message = "菜单名不能为空", groups = {
+            ValidationGroup.AddGroup.class,
+            ValidationGroup.EditGroup.class
+    })
     /** 菜单名称 */
     private String menuName;
 

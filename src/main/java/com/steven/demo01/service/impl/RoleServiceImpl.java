@@ -6,17 +6,24 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.steven.demo01.domain.CommonResult;
 import com.steven.demo01.domain.entity.SysRole;
+import com.steven.demo01.domain.entity.SysRoleMenu;
 import com.steven.demo01.exception.CustomException;
 import com.steven.demo01.mapper.RoleMapper;
+import com.steven.demo01.mapper.SysRoleMenuMapper;
 import com.steven.demo01.service.RoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class RoleServiceImpl implements RoleService {
     @Autowired
     RoleMapper roleMapper;
+    @Autowired
+    SysRoleMenuMapper roleMenuMapper;
 
     @Override
     public SysRole selectRoleById(Long roleId) {
@@ -43,6 +50,15 @@ public class RoleServiceImpl implements RoleService {
             throw new CustomException(CommonResult.error("该角色已存在", ""));
         }
         roleMapper.insert(sysRole);
+        // 添加 角色和菜单关系表数据
+        List<SysRoleMenu> sysRoleMenuList = new ArrayList<>();
+        sysRole.getMenuIdList().forEach(item -> {
+            SysRoleMenu sysRoleMenu = new SysRoleMenu();
+            sysRoleMenu.setRoleId(sysRole.getRoleId());
+            sysRoleMenu.setMenuId(item);
+            sysRoleMenuList.add(sysRoleMenu);
+        });
+        roleMenuMapper.batchRoleMenu(sysRoleMenuList);
     }
 
     @Override
