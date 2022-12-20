@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.steven.demo01.domain.entity.SysRole;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface RoleService {
     /**
@@ -19,4 +21,6 @@ public interface RoleService {
     void addRole(SysRole sysRole);
 
     void editRole(SysRole sysRole);
+
+    List<SysRole> selectRolesByUserId(Long userId);
 }

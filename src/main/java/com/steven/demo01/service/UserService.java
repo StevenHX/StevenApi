@@ -13,4 +13,6 @@ public interface UserService {
     IPage<User> selectUserList(User user);
 
     void edit(User user);
+
+    void insertUserAuth(Long userId, Long[] roleIds);
 }

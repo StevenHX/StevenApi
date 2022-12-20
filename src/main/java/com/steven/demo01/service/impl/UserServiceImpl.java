@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.steven.demo01.constant.Constants;
 import com.steven.demo01.domain.CommonResult;
+import com.steven.demo01.domain.entity.SysUserRole;
 import com.steven.demo01.domain.entity.User;
 import com.steven.demo01.domain.model.LoginUser;
 import com.steven.demo01.exception.CustomException;
+import com.steven.demo01.mapper.SysUserRoleMapper;
 import com.steven.demo01.mapper.UserMapper;
 import com.steven.demo01.service.UserService;
 import com.steven.demo01.utils.JwtUtils;
@@ -17,13 +19,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Component
 public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    SysUserRoleMapper userRoleMapper;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -91,5 +97,32 @@ public class UserServiceImpl implements UserService {
         if (rows == 0) throw new CustomException(CommonResult.error("修改失败", ""));
     }
 
+    @Override
+    public void insertUserAuth(Long userId, Long[] roleIds) {
+        // 删除用户角色关系
+        userRoleMapper.deleteUserRoleByUserId(userId);
+        // 新增用户角色关系
+        insertUserRole(userId, roleIds);
+    }
 
+    /**
+     * 新增 用户角色信息
+     * @param userId
+     * @param roleIds
+     */
+    private void insertUserRole(Long userId, Long[] roleIds) {
+        if (roleIds.length > 0)
+        {
+            // 新增用户与角色管理
+            List<SysUserRole> list = new ArrayList<>(roleIds.length);
+            for (Long roleId : roleIds)
+            {
+                SysUserRole ur = new SysUserRole();
+                ur.setUserId(userId);
+                ur.setRoleId(roleId);
+                list.add(ur);
+            }
+            userRoleMapper.batchUserRole(list);
+        }
+    }
 }

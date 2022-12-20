@@ -18,13 +18,11 @@ public class SysRole extends BaseSearchDto implements Serializable {
     @TableId
     private Long roleId;
     @NotBlank(message = "角色名不能为空", groups = {
-            ValidationGroup.AddGroup.class,
-            ValidationGroup.EditGroup.class
+            ValidationGroup.AddGroup.class
     })
     private String roleName;
     @NotBlank(message = "角色key不能为空", groups = {
-            ValidationGroup.AddGroup.class,
-            ValidationGroup.EditGroup.class
+            ValidationGroup.AddGroup.class
     })
     private String roleKey;
     private Integer roleSort;

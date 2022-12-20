@@ -51,6 +51,31 @@ public class RoleServiceImpl implements RoleService {
         }
         roleMapper.insert(sysRole);
         // 添加 角色和菜单关系表数据
+        addRoleMenu(sysRole);
+    }
+
+    @Override
+    public void editRole(SysRole sysRole) {
+        UpdateWrapper<SysRole> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("role_id", sysRole.getRoleId());
+        int rows = roleMapper.update(sysRole, updateWrapper);
+        if (rows == 0) throw new CustomException(CommonResult.error("修改失败", ""));
+        // 清除角色和菜单关系
+        roleMenuMapper.deleteRoleMenuByRoleId(sysRole.getRoleId());
+        // 新增角色和菜单关系
+        addRoleMenu(sysRole);
+    }
+
+    @Override
+    public List<SysRole> selectRolesByUserId(Long userId) {
+        return roleMapper.selectRolesByUserId(userId);
+    }
+
+    /**
+     * 添加角色和菜单关系表记录
+     * @param sysRole
+     */
+    private void addRoleMenu(SysRole sysRole) {
         List<SysRoleMenu> sysRoleMenuList = new ArrayList<>();
         sysRole.getMenuIdList().forEach(item -> {
             SysRoleMenu sysRoleMenu = new SysRoleMenu();
@@ -61,11 +86,5 @@ public class RoleServiceImpl implements RoleService {
         roleMenuMapper.batchRoleMenu(sysRoleMenuList);
     }
 
-    @Override
-    public void editRole(SysRole sysRole) {
-        UpdateWrapper<SysRole> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("role_id", sysRole.getRoleId());
-        int rows = roleMapper.update(sysRole, updateWrapper);
-        if (rows == 0) throw new CustomException(CommonResult.error("修改失败", ""));
-    }
+
 }

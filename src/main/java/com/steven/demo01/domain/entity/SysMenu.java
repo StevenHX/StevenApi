@@ -23,9 +23,6 @@ public class SysMenu extends BaseSearchDto implements Serializable {
     /** 菜单名称 */
     private String menuName;
 
-    /** 父菜单名称 */
-    private String parentName;
-
     /** 父菜单ID */
     private Long parentId;
 
