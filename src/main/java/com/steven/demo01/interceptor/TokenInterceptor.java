@@ -40,7 +40,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
-        response.setStatus(401);
+        response.setStatus(200);
         response.getWriter().append(JSON.toJSONString(CommonResult.unVerify("")));
         return false;
     }

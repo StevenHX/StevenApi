@@ -1,14 +1,18 @@
 package com.steven.demo01.domain.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.steven.demo01.domain.BaseSearchDto;
 import com.steven.demo01.domain.ValidationGroup;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class SysMenu extends BaseSearchDto implements Serializable {
@@ -64,4 +68,9 @@ public class SysMenu extends BaseSearchDto implements Serializable {
     private String updateBy;
     private Date updateTime;
     private String remark;
+
+    /** 子菜单 */
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @TableField(exist = false)
+    private List<SysMenu> children = new ArrayList<SysMenu>();
 }

@@ -2,15 +2,20 @@ package com.steven.demo01.controller;
 
 import com.steven.demo01.domain.CommonResult;
 import com.steven.demo01.domain.ValidationGroup;
+import com.steven.demo01.domain.entity.SysMenu;
 import com.steven.demo01.domain.entity.User;
 import com.steven.demo01.domain.model.LoginInfo;
 import com.steven.demo01.domain.model.LoginUser;
+import com.steven.demo01.domain.model.vo.RouterVo;
+import com.steven.demo01.service.MenuService;
 import com.steven.demo01.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -19,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController extends BaseController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private MenuService menuService;
 
     /**
      * 登录接口
@@ -60,7 +67,10 @@ public class LoginController extends BaseController {
      * @return 路由信息
      */
     @GetMapping("getRouters")
-    public CommonResult<String> getRouters() {
-        return CommonResult.success("ok");
+    public CommonResult<List<RouterVo>> getRouters() {
+        LoginUser loginUser = getCurrentLoginUser();
+        Long userId = loginUser.getUser().getUserId();
+        List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
+        return CommonResult.success(menuService.buildMenus(menus));
     }
 }
