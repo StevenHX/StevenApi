@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.steven.demo01.mapper.DictTypeMapper">
+    <select id="selectTypeById" parameterType="Long" resultType="com.steven.demo01.domain.entity.SysDictType">
+        select *
+        from sys_dict_type t
+        where t.dict_id = #{dictId};
+    </select>
+</mapper>
