@@ -1,11 +1,15 @@
 package com.steven.demo01.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.steven.demo01.domain.BaseSearchDto;
 import com.steven.demo01.domain.ValidationGroup;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
@@ -17,13 +21,25 @@ public class User extends BaseSearchDto implements Serializable {
     /**
      * 用户ID
      */
-    @TableId
+    @NotNull(message = "用户id不能为空", groups = {
+            ValidationGroup.EditGroup.class
+    })
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long userId;
 
     /**
      * 部门ID
      */
     private Long deptId;
+    /**
+     * 角色们
+     */
+    @NotEmpty(message = "角色们不能为空", groups = {
+            ValidationGroup.AddGroup.class,
+            ValidationGroup.EditGroup.class
+    })
+    @TableField(exist = false)
+    private Long[] roleIds;
 
     /**
      * 用户账号

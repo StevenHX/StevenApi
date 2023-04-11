@@ -1,5 +1,7 @@
 package com.steven.demo01.domain.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.steven.demo01.domain.BaseSearchDto;
 import com.steven.demo01.domain.ValidationGroup;
 import lombok.Data;
@@ -13,6 +15,7 @@ public class SysDictData extends BaseSearchDto implements Serializable {
     /**
      * 字典数据id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long dictDataId;
     /**
      * 字典类型编码

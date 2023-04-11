@@ -8,4 +8,10 @@
         from sys_dict_data t
         where t.dict_data_id = #{dictDataId};
     </select>
+    <select id="selectDictDataByType" parameterType="String" resultType="com.steven.demo01.domain.entity.SysDictData">
+        select *
+        from sys_dict_data t
+        where t.dict_type = #{dictType}
+    </select>
+
 </mapper>

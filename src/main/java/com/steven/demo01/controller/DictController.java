@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -94,5 +95,14 @@ public class DictController extends BaseController {
     public CommonResult<String> deleteData(@PathVariable Long dictDataId) {
         dictService.delDictData(dictDataId);
         return CommonResult.success("删除成功");
+    }
+
+    /**
+     * 根据字典类型 获取字典数据
+     */
+    @GetMapping(value = "/dataByType/{dictType}")
+    public CommonResult<List<SysDictData>> getDictDataByDictType(@PathVariable String dictType) {
+        List<SysDictData> dictData = dictService.queryDictByDictType(dictType);
+        return CommonResult.success(dictData);
     }
 }

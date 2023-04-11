@@ -6,10 +6,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.steven.demo01.constant.Constants;
 import com.steven.demo01.domain.CommonResult;
+import com.steven.demo01.domain.entity.SysRole;
 import com.steven.demo01.domain.entity.SysUserRole;
 import com.steven.demo01.domain.entity.User;
 import com.steven.demo01.domain.model.LoginUser;
 import com.steven.demo01.exception.CustomException;
+import com.steven.demo01.mapper.RoleMapper;
 import com.steven.demo01.mapper.SysUserRoleMapper;
 import com.steven.demo01.mapper.UserMapper;
 import com.steven.demo01.service.UserService;
@@ -19,9 +21,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -30,18 +31,21 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     @Autowired
     SysUserRoleMapper userRoleMapper;
-
+    @Autowired
+    RoleMapper roleMapper;
     @Autowired
     private RedisUtil redisUtil;
 
     @Override
-    public void register(User user) {
+    public User register(User user) {
         User oldUser = userMapper.findByUsername(user.getUserName());
         if (oldUser != null) {
             throw new CustomException(CommonResult.error("用户已存在", ""));
         }
         user.setCreateTime(new Date());
-        userMapper.insert(user);
+        int rows = userMapper.insert(user);
+        if (rows == 0 )  throw new CustomException(CommonResult.error("注册失败", ""));
+        return userMapper.findByUsername(user.getUserName());
     }
 
     @Override
@@ -59,6 +63,10 @@ public class UserServiceImpl implements UserService {
             LoginUser loginUser = new LoginUser();
             loginUser.setUser(sysUser);
             loginUser.setLoginTime(new Date().getTime());
+            // 缓存用户的角色
+            List<SysRole> roles = roleMapper.selectRolesByUserId(sysUser.getUserId());
+            List<String> roleKeys = roles.stream().map(SysRole::getRoleKey).collect(Collectors.toList());
+            loginUser.setRoles(new HashSet<>(roleKeys));
             redisUtil.set(token, loginUser, Constants.EXPIRE_TIME);
             return token;
         }
@@ -103,6 +111,18 @@ public class UserServiceImpl implements UserService {
         userRoleMapper.deleteUserRoleByUserId(userId);
         // 新增用户角色关系
         insertUserRole(userId, roleIds);
+    }
+
+    @Override
+    public User queryUserByUserId(Long userId) {
+        return userMapper.selectUserById(userId);
+    }
+
+    @Override
+    public List<SysUserRole> queryRoleIdsByUserId(Long userId) {
+        QueryWrapper<SysUserRole> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id",userId);
+        return userRoleMapper.selectList(queryWrapper);
     }
 
     /**

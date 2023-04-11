@@ -4,6 +4,7 @@ import com.steven.demo01.domain.entity.User;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * 缓存 登录用户
@@ -39,6 +40,11 @@ public class LoginUser implements Serializable {
      * 操作系统
      */
     private String os;
+
+    /**
+     * 用户角色key
+     */
+    private Set<String> roles;
 
     /**
      * 用户信息

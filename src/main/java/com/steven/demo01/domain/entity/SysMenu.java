@@ -2,8 +2,9 @@ package com.steven.demo01.domain.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.steven.demo01.domain.BaseSearchDto;
 import com.steven.demo01.domain.ValidationGroup;
 import lombok.Data;
@@ -17,7 +18,7 @@ import java.util.List;
 @Data
 public class SysMenu extends BaseSearchDto implements Serializable {
     /** 菜单ID */
-    @TableId
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long menuId;
 
     @NotBlank(message = "菜单名不能为空", groups = {

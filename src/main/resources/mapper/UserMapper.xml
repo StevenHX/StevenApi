@@ -8,4 +8,7 @@
                u.sex,u.avatar,u.password,u.status,u.del_flag,u.login_ip,u.login_date,
                u.create_by,u.create_time,u.update_by,u.update_time,u.remark from user u where u.user_name = #{username};
     </select>
+    <select id="selectUserById" resultType="com.steven.demo01.domain.entity.User">
+        select  * from user u where u.user_id = #{userId};
+    </select>
 </mapper>

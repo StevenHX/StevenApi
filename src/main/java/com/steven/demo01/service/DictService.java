@@ -5,6 +5,8 @@ import com.steven.demo01.domain.entity.SysDictData;
 import com.steven.demo01.domain.entity.SysDictType;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 字典服务
  */
@@ -52,6 +54,11 @@ public interface DictService {
      * @return
      */
     SysDictData queryDictDataById(Long dictDataId);
+
+    /**
+     * 根据字典类型 查询字典数据数组
+     */
+    List<SysDictData> queryDictByDictType(String dictType);
 
     /**
      * 修改字典数据

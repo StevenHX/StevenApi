@@ -15,6 +15,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class DictServiceImpl implements DictService {
     @Autowired
@@ -78,6 +80,11 @@ public class DictServiceImpl implements DictService {
     @Override
     public SysDictData queryDictDataById(Long dictDataId) {
         return dictDataMapper.selectDataById(dictDataId);
+    }
+
+    @Override
+    public List<SysDictData> queryDictByDictType(String dictType) {
+        return dictDataMapper.selectDictDataByType(dictType);
     }
 
     @Override
