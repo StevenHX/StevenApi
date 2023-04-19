@@ -8,7 +8,7 @@ public class Constants {
     /**
      * 默认 token 超时时间 1小时
      */
-    public static final long EXPIRE_TIME = 60 * 60L;
+    public static final long EXPIRE_TIME = 8 * 60 * 60L;
     /**
      * www主域
      */

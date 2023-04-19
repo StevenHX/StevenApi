@@ -45,6 +45,10 @@ public class LoginUser implements Serializable {
      * 用户角色key
      */
     private Set<String> roles;
+    /**
+     * 用户操作权限
+     */
+    private Set<String> permissions;
 
     /**
      * 用户信息

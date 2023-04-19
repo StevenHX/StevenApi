@@ -18,4 +18,8 @@ public interface MenuMapper extends BaseMapper<SysMenu> {
      * @return 菜单列表
      */
     List<SysMenu> selectMenuTreeByUserId(Long userId);
+
+    List<SysMenu> selectMenuByRoleId(Long roleId);
+
+    List<SysMenu> selectMenuPermissionByUserId(Long userId);
 }

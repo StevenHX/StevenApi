@@ -80,7 +80,7 @@ public class RoleServiceImpl implements RoleService {
         sysRole.getMenuIdList().forEach(item -> {
             SysRoleMenu sysRoleMenu = new SysRoleMenu();
             sysRoleMenu.setRoleId(sysRole.getRoleId());
-            sysRoleMenu.setMenuId(item);
+            sysRoleMenu.setMenuId(Long.valueOf(item));
             sysRoleMenuList.add(sysRoleMenu);
         });
         roleMenuMapper.batchRoleMenu(sysRoleMenuList);

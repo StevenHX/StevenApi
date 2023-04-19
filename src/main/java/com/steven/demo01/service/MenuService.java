@@ -31,6 +31,13 @@ public interface MenuService {
      * @return 菜单列表
      */
     List<SysMenu> selectMenuTreeByUserId(Long userId);
+
+    /**
+     * 根据角色ID获取菜单信息
+     * @param roleId
+     * @return
+     */
+    List<SysMenu> selectMenuByRoleId(Long roleId);
     /**
      * 构建前端路由所需要的菜单
      *

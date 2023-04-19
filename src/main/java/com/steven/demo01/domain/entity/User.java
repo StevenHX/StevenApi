@@ -39,7 +39,7 @@ public class User extends BaseSearchDto implements Serializable {
             ValidationGroup.EditGroup.class
     })
     @TableField(exist = false)
-    private Long[] roleIds;
+    private String[] roleIds;
 
     /**
      * 用户账号

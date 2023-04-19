@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @Api(tags = "菜单相关接口")
@@ -37,9 +38,21 @@ public class MenuController extends BaseController {
      * @param menuId
      * @return
      */
-    @GetMapping(value = "/{menuId}")
+    @GetMapping(value = "/detail/{menuId}")
     public CommonResult<SysMenu> getInfo(@PathVariable Long menuId) {
         SysMenu sysMenu = menuService.selectMenuById(menuId);
+        return CommonResult.success(sysMenu);
+    }
+
+    /**
+     * 根据roleID获取菜单
+     *
+     * @param roleId
+     * @return
+     */
+    @GetMapping(value = "/menusByRole/{roleId}")
+    public CommonResult<List<SysMenu>> getMenusByRoleID(@PathVariable Long roleId) {
+        List<SysMenu> sysMenu = menuService.selectMenuByRoleId(roleId);
         return CommonResult.success(sysMenu);
     }
 
@@ -72,6 +85,8 @@ public class MenuController extends BaseController {
         menuService.editMenu(menu);
         return CommonResult.success("修改成功");
     }
+
+
 
     /**
      * 删除菜单

@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.steven.demo01.constant.Constants;
 import com.steven.demo01.domain.CommonResult;
+import com.steven.demo01.domain.entity.SysMenu;
 import com.steven.demo01.domain.entity.SysRole;
 import com.steven.demo01.domain.entity.SysUserRole;
 import com.steven.demo01.domain.entity.User;
 import com.steven.demo01.domain.model.LoginUser;
 import com.steven.demo01.exception.CustomException;
+import com.steven.demo01.mapper.MenuMapper;
 import com.steven.demo01.mapper.RoleMapper;
 import com.steven.demo01.mapper.SysUserRoleMapper;
 import com.steven.demo01.mapper.UserMapper;
@@ -33,6 +35,8 @@ public class UserServiceImpl implements UserService {
     SysUserRoleMapper userRoleMapper;
     @Autowired
     RoleMapper roleMapper;
+    @Autowired
+    MenuMapper menuMapper;
     @Autowired
     private RedisUtil redisUtil;
 
@@ -67,6 +71,16 @@ public class UserServiceImpl implements UserService {
             List<SysRole> roles = roleMapper.selectRolesByUserId(sysUser.getUserId());
             List<String> roleKeys = roles.stream().map(SysRole::getRoleKey).collect(Collectors.toList());
             loginUser.setRoles(new HashSet<>(roleKeys));
+            //缓存用户权限
+            if (roleKeys.contains("admin")) {
+                Set<String> permissionStr = new HashSet<>();
+                permissionStr.add("*:*:*");
+                loginUser.setPermissions(permissionStr);
+            } else {
+                List<SysMenu> menus= menuMapper.selectMenuPermissionByUserId(sysUser.getUserId());
+                List<String> permissions = menus.stream().map(SysMenu::getPerms).filter(permission -> !permission.isEmpty()).collect(Collectors.toList());
+                loginUser.setPermissions(new HashSet<>(permissions));
+            }
             redisUtil.set(token, loginUser, Constants.EXPIRE_TIME);
             return token;
         }
@@ -106,7 +120,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void insertUserAuth(Long userId, Long[] roleIds) {
+    public void insertUserAuth(Long userId, String[] roleIds) {
         // 删除用户角色关系
         userRoleMapper.deleteUserRoleByUserId(userId);
         // 新增用户角色关系
@@ -130,16 +144,16 @@ public class UserServiceImpl implements UserService {
      * @param userId
      * @param roleIds
      */
-    private void insertUserRole(Long userId, Long[] roleIds) {
+    private void insertUserRole(Long userId, String[] roleIds) {
         if (roleIds.length > 0)
         {
             // 新增用户与角色管理
             List<SysUserRole> list = new ArrayList<>(roleIds.length);
-            for (Long roleId : roleIds)
+            for (String roleId : roleIds)
             {
                 SysUserRole ur = new SysUserRole();
                 ur.setUserId(userId);
-                ur.setRoleId(roleId);
+                ur.setRoleId(Long.valueOf(roleId));
                 list.add(ur);
             }
             userRoleMapper.batchUserRole(list);

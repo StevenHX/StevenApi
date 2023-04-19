@@ -70,7 +70,7 @@ public class UserController extends BaseController {
      * 新增用户授权角色
      */
     @PutMapping("/authRole")
-    public CommonResult<String> insertAuthRole(Long userId, Long[] roleIds) {
+    public CommonResult<String> insertAuthRole(Long userId, String[] roleIds) {
         userService.insertUserAuth(userId, roleIds);
         return CommonResult.success("授权成功");
     }
@@ -92,9 +92,9 @@ public class UserController extends BaseController {
         User user = userService.queryUserByUserId(userId);
         // 根据userId 获取角色
         List<SysUserRole> sysUserRoleList = userService.queryRoleIdsByUserId(userId);
-        Long[] rolesId = new Long[sysUserRoleList.size()];
+        String[] rolesId = new String[sysUserRoleList.size()];
         for (int i = 0; i < sysUserRoleList.size(); i++) {
-            rolesId[i] = sysUserRoleList.get(i).getRoleId();
+            rolesId[i] = String.valueOf(sysUserRoleList.get(i).getRoleId());
         }
         user.setRoleIds(rolesId);
         return CommonResult.success(user);

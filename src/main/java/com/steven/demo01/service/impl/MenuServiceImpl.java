@@ -71,6 +71,12 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public List<SysMenu> selectMenuByRoleId(Long roleId) {
+        List<SysMenu> menus = menuMapper.selectMenuByRoleId(roleId);
+        return menus;
+    }
+
+    @Override
     public List<RouterVo> buildMenus(List<SysMenu> menus) {
 
         List<RouterVo> routers = new LinkedList<RouterVo>();

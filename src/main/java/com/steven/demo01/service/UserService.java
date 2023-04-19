@@ -17,7 +17,7 @@ public interface UserService {
 
     void edit(User user);
 
-    void insertUserAuth(Long userId, Long[] roleIds);
+    void insertUserAuth(Long userId, String[] roleIds);
 
     User queryUserByUserId(Long userId);
 

@@ -4,7 +4,6 @@ import com.steven.demo01.domain.CommonResult;
 import com.steven.demo01.domain.ValidationGroup;
 import com.steven.demo01.domain.entity.SysMenu;
 import com.steven.demo01.domain.entity.User;
-import com.steven.demo01.domain.model.LoginInfo;
 import com.steven.demo01.domain.model.LoginUser;
 import com.steven.demo01.domain.model.vo.RouterVo;
 import com.steven.demo01.service.MenuService;
@@ -53,12 +52,10 @@ public class LoginController extends BaseController {
      * @return 用户信息
      */
     @GetMapping("getInfo")
-    public CommonResult<LoginInfo> getInfo() {
+    public CommonResult<LoginUser> getInfo() {
         // 获取redis中缓存的当前登录人信息
         LoginUser loginUser = getCurrentLoginUser();
-        LoginInfo loginInfo = new LoginInfo();
-        loginInfo.setLoginUser(loginUser);
-        return CommonResult.success(loginInfo);
+        return CommonResult.success(loginUser);
     }
 
     /**

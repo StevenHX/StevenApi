@@ -45,5 +45,5 @@ public class SysRole extends BaseSearchDto implements Serializable {
             ValidationGroup.AddGroup.class,
             ValidationGroup.EditGroup.class
     })
-    private List<Long> menuIdList;
+    private List<String> menuIdList;
 }
