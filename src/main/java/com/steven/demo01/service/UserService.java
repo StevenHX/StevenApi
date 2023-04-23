@@ -16,6 +16,7 @@ public interface UserService {
     IPage<User> selectUserList(User user);
 
     void edit(User user);
+    void updatePassWord(Long userId,String password);
 
     void insertUserAuth(Long userId, String[] roleIds);
 

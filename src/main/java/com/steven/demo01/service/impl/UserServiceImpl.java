@@ -120,6 +120,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updatePassWord(Long userId, String password) {
+        User user = userMapper.selectUserById(userId);
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("user_id", userId);
+        user.setPassword(password);
+        user.setUpdateTime(new Date());
+        int rows = userMapper.update(user, updateWrapper);
+        if (rows == 0) throw new CustomException(CommonResult.error("重置密码失败", ""));
+    }
+
+    @Override
     public void insertUserAuth(Long userId, String[] roleIds) {
         // 删除用户角色关系
         userRoleMapper.deleteUserRoleByUserId(userId);

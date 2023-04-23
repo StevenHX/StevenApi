@@ -99,4 +99,22 @@ public class UserController extends BaseController {
         user.setRoleIds(rolesId);
         return CommonResult.success(user);
     }
+
+    /**
+     * 重置密码
+     */
+    @PutMapping("/resetPwd")
+    public CommonResult<String> resetPwd(@RequestBody User user) {
+        userService.updatePassWord(user.getUserId(),user.getPassword());
+        return CommonResult.success("重置密码成功");
+    }
+
+    /**
+     * 获取用户个人详情
+     */
+    @GetMapping("/profile")
+    public CommonResult<User> getProfile() {
+        long loginUserId = getCurrentLoginUser().getUser().getUserId();
+        return getUserById(loginUserId);
+    }
 }
